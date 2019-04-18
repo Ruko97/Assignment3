@@ -1,0 +1,3 @@
+First,Family,Postcode,Credit Card,Balance,Credit
+Jim,Morrison,2052,12345678,100,960
+Eric,Clapton,2019,53466207,40,500
