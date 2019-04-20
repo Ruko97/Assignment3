@@ -3,6 +3,7 @@ package bank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,14 +17,16 @@ public class Bank {
             Socket clientSocket = serverSocket.accept();
             System.out.println("Successfully connected to " + clientSocket.getInetAddress());
             BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()), 1024);
+                    new InputStreamReader(clientSocket.getInputStream()) );
 
-            while (true) {
-                String message;
-                if ( (message = bufferedReader.readLine()) != null) {
-                    System.out.println(BankFunctions.analyseMessage(message));
-                }
+            PrintWriter printWriter = new PrintWriter( clientSocket.getOutputStream() );
+
+            String message;
+            if ( (message = bufferedReader.readLine()) != null) {
+                    printWriter.println(BankFunctions.analyseMessage(message));
             }
+
+            clientSocket.close();
         }
 
     }

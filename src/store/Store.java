@@ -1,9 +1,8 @@
 package store;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -17,10 +16,25 @@ public class Store {
         System.out.println("Connected to bank server at " +
                 bankAddress.toString() + " at port " + bankPort );
 
-        PrintWriter printWriter = new PrintWriter(
-                bankSocket.getOutputStream(), true );
-        printWriter.println("PAY 100 FROM Jim Morrison 2052 12345678");
+        ServerSocket storeServer = new ServerSocket(storePort);
+        System.out.println("Created store socket to port " + storePort);
 
-        bankSocket.close();
+        while (true) {
+            Socket storeClientSocket = storeServer.accept();
+            System.out.println("Successfully connected to " + storeClientSocket.getInetAddress());
+
+            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(
+                    storeClientSocket.getInputStream()) );
+
+            PrintWriter printWriter = new PrintWriter( storeClientSocket.getOutputStream(),true );
+
+            String message;
+            if ( (message = bufferedReader.readLine()) != null ) {
+                String response = StoreFunctions.analyseMessage(message, printWriter);
+                System.out.println(response);
+                printWriter.println(response);
+                storeClientSocket.close();
+            }
+        }
     }
 }
