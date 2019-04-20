@@ -16,12 +16,15 @@ public class Bank {
             Socket clientSocket = serverSocket.accept();
             System.out.println("Successfully connected to " + clientSocket.getInetAddress());
             BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()) );
+                    new InputStreamReader(clientSocket.getInputStream()), 1024);
 
             while (true) {
-                String message = bufferedReader.readLine();
-                System.out.println(BankFunctions.analyseMessage(message));
+                String message;
+                if ( (message = bufferedReader.readLine()) != null) {
+                    System.out.println(BankFunctions.analyseMessage(message));
+                }
             }
         }
+
     }
 }
