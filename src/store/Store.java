@@ -32,7 +32,6 @@ public class Store {
             if ( (message = bufferedReader.readLine()) != null ) {
                 String response = StoreFunctions.analyseMessage(message, printWriter);
                 System.out.println(response);
-                printWriter.println(response);
                 storeClientSocket.close();
             }
         }
