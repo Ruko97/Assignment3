@@ -41,7 +41,7 @@ public class Store {
             String message;
             if ( (message = bufferedReader.readLine()) != null ) {
 
-                StoreFunctions storeFunctions = new StoreFunctions(message, printWriter);
+                StoreFunctions storeFunctions = new StoreFunctions(message, printWriter, bufferedReader);
 
                 System.out.println(ANSI_RED+message+ANSI_RESET);
                 String response = storeFunctions.analyseMessage();
