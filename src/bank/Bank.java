@@ -23,7 +23,9 @@ public class Bank {
 
             String message;
             if ( (message = bufferedReader.readLine()) != null) {
-                    printWriter.println(BankFunctions.analyseMessage(message));
+                String output = BankFunctions.analyseMessage(message);
+                System.out.println(output);
+                printWriter.println(output);
             }
 
             clientSocket.close();

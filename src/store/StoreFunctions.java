@@ -17,6 +17,7 @@ public class StoreFunctions {
 
 
     public PrintWriter printWriter;
+    public PrintWriter bankPrintWriter;
     public String message;
     public String method;
     public String fileAddress;
@@ -24,11 +25,11 @@ public class StoreFunctions {
     public BufferedReader bufferedReader;
     public String first, family, post, credit_card, choice;
 
-    StoreFunctions(String message, PrintWriter printWriter, BufferedReader bufferedReader){
+    StoreFunctions(String message, PrintWriter printWriter, BufferedReader bufferedReader, PrintWriter bankPrintWriter){
         this.printWriter = printWriter;
         this.bufferedReader = bufferedReader;
         this.message = message;
-
+        this.bankPrintWriter = bankPrintWriter;
     }
 
     String analyseMessage() throws IOException {
@@ -52,11 +53,19 @@ public class StoreFunctions {
             }
             System.out.println(ANSI_YELLOW+payload.toString()+ANSI_RESET);
             getInfoFromPayload(payload.toString());
+            bankPrintWriter.println( "PAY " + getCostOf(choice) + "  FROM " + first + ' ' + family + ' ' + post + ' ' + credit_card);
             return payload.toString();
         }
         else {
             return "501 Not Implemented";
         }
+    }
+
+    private int getCostOf(String choice) {
+        if (choice.equals("avengers")) return 100;
+        else if (choice.equals("pokemon")) return 70;
+        else if (choice.equals("joker")) return 80;
+        return 0;
     }
 
     private void getInfoFromPayload(String payload){

@@ -26,6 +26,8 @@ public class Store {
         System.out.println("Connected to bank server at " +
                 bankAddress.toString() + " at port " + bankPort );
 
+        PrintWriter bankPrintWriter = new PrintWriter( bankSocket.getOutputStream(), true );
+
         ServerSocket storeServer = new ServerSocket(storePort);
         System.out.println("Created store socket to port " + storePort);
 
@@ -41,11 +43,12 @@ public class Store {
             String message;
             if ( (message = bufferedReader.readLine()) != null ) {
 
-                StoreFunctions storeFunctions = new StoreFunctions(message, printWriter, bufferedReader);
+                StoreFunctions storeFunctions = new StoreFunctions(message, printWriter, bufferedReader, bankPrintWriter);
 
                 System.out.println(ANSI_RED+message+ANSI_RESET);
                 String response = storeFunctions.analyseMessage();
                 System.out.println(ANSI_BLUE+response+ANSI_RESET);
+
                 storeClientSocket.close();
             }
         }
