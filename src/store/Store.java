@@ -27,6 +27,8 @@ public class Store {
                 bankAddress.toString() + " at port " + bankPort );
 
         PrintWriter bankPrintWriter = new PrintWriter( bankSocket.getOutputStream(), true );
+        BufferedReader bankBufferedReader = new BufferedReader( new InputStreamReader(
+                bankSocket.getInputStream()) );
 
         ServerSocket storeServer = new ServerSocket(storePort);
         System.out.println("Created store socket to port " + storePort);
@@ -50,7 +52,10 @@ public class Store {
                 System.out.println(ANSI_BLUE+response+ANSI_RESET);
 
                 storeClientSocket.close();
+
             }
+
+
         }
     }
 }

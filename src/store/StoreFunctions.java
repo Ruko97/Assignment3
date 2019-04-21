@@ -93,16 +93,15 @@ public class StoreFunctions {
     }
 
     private String HTTPIndexGETResponse() throws IOException {
-
         StringBuilder output = new StringBuilder();
 
         output.append(makeHeader());
         printWriter.println(output.toString());
 
-        String actualFileAddress = "src/store/webpages"+fileAddress;
-
-        File HTMLFile = new File(actualFileAddress);
         output.setLength(0);
+
+        String actualFileAddress = "src/store/webpages"+fileAddress;
+        File HTMLFile = new File(actualFileAddress);
         FileReader fileReader = new FileReader( HTMLFile );
         char[] chars = new char[(int) HTMLFile.length()];
         fileReader.read(chars);
@@ -111,5 +110,28 @@ public class StoreFunctions {
 
         printWriter.println(output.toString());
         return output.toString();
+    }
+
+    String analyseBankResponse(String response) {
+        StringBuilder output = new StringBuilder();
+
+        output.append(makeHeader());
+        printWriter.println(output.toString());
+
+        output.setLength(0);
+
+        String[] tokens = response.split("\\s", 2);
+        int responseCode = Integer.parseInt(tokens[0]);
+        output.append( createHTMLBody(responseCode) );
+
+        printWriter.println(output.toString());
+        return output.toString();
+    }
+
+    private String createHTMLBody(int responseCode) {
+        if (responseCode == 200) return "Transaction Successful";
+        else if (responseCode == 401) return first + ", you don't have enough credits";
+        else if (responseCode == 402) return "No such user exists";
+        else return "Not implemented yet";
     }
 }
