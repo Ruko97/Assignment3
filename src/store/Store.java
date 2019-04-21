@@ -7,7 +7,17 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Store {
-    public static void main(String[] args) throws IOException {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+    public static void main(String[] args) throws Exception{
         int storePort = Integer.parseInt(args[0]);
         InetAddress bankAddress = InetAddress.getByName(args[1]);
         int bankPort = Integer.parseInt(args[2]);
@@ -30,8 +40,12 @@ public class Store {
 
             String message;
             if ( (message = bufferedReader.readLine()) != null ) {
-                String response = StoreFunctions.analyseMessage(message, printWriter);
-                System.out.println(response);
+
+                StoreFunctions storeFunctions = new StoreFunctions(message, printWriter);
+
+                System.out.println(ANSI_RED+message+ANSI_RESET);
+                String response = storeFunctions.analyseMessage();
+                System.out.println(ANSI_BLUE+response+ANSI_RESET);
                 storeClientSocket.close();
             }
         }
