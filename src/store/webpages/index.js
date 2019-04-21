@@ -1,1 +1,0 @@
-document.getElementById("thuglife").innerHTML("i hate love stories");
